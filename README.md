@@ -66,3 +66,13 @@ module.exports = mongoose;
 - Update file init.mongodb.js
 
 ```
+
+### L4 Config .env for multi-stage, multi-environment
+
+```
+- create file configs/config.mogodb.js
+- write config file (config.mongodb.js & .env):
+  + lv0: for only one environment
+  + lv1: for multi-environment: development, production (cloud ex AWS, Onrender,...), testing
+
+```
