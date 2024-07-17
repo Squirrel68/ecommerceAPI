@@ -104,7 +104,7 @@ module.exports = mongoose;
 
 ```
 - create and write folder services/shop.service.js
-- hashpassword with bcrypt
+- hash password with bcrypt
 - create public and private key with rsa algorithm
 - access token and refresh_token with jwt
 ```
