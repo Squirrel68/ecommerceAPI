@@ -76,3 +76,37 @@ module.exports = mongoose;
   + lv1: for multi-environment: development, production (cloud ex AWS, Onrender,...), testing
 
 ```
+
+### L5 API register shop (sign up) - use RSA to create public and private key - use for Crypto or Stock market
+
+- write shop.model.js (Model - Entity)
+
+```
+- install mongo snippet for NodeJs
+```
+
+- create route shop
+
+```
+- create and write folder routes/index.js
+- Mapping HTTP methods to CRUD operations
+
+```
+
+- create shop.controller.js (Controller)
+
+```
+- create and write folder controllers/shop.controller.js
+- handle input data from client and call service
+```
+
+- create shop.service.js (Service)
+
+```
+- create and write folder services/shop.service.js
+- hashpassword with bcrypt
+- create public and private key with rsa algorithm
+- access token and refresh_token with jwt
+```
+
+### L5 API register shop (sign up) - create random private and public key
