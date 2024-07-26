@@ -1,8 +1,14 @@
-"use strict";
+'use strict'
 
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const { apiKey, permissions } = require('../auth/checkAuth')
+const router = express.Router()
 
-router.use("/v1/api", require("./access"));
+// check apiKey
+router.use(apiKey)
+// check permission
+router.use(permissions('0000'))
 
-module.exports = router;
+router.use('/v1/api', require('./access'))
+
+module.exports = router

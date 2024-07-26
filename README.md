@@ -79,34 +79,59 @@ module.exports = mongoose;
 
 ### L5 API register shop (sign up) - use RSA to create public and private key - use for Crypto or Stock market
 
-- write shop.model.js (Model - Entity)
+Pseudocode
 
-```
-- install mongo snippet for NodeJs
-```
-
-- create route shop
-
-```
-- create and write folder routes/index.js
-- Mapping HTTP methods to CRUD operations
-
-```
-
-- create shop.controller.js (Controller)
-
-```
-- create and write folder controllers/shop.controller.js
-- handle input data from client and call service
-```
-
-- create shop.service.js (Service)
-
-```
-- create and write folder services/shop.service.js
-- hash password with bcrypt
-- create public and private key with rsa algorithm
-- access token and refresh_token with jwt
+```pseudo
+1. Client sends POST request to /signup with shop details (name, email, password).
+2. AccessController.signUp(req, res, next)
+   - Log request body
+   - Call AccessService.signUp(req.body)
+3. AccessService.signUp({ name, email, password })
+   - Check if email exists in shopModel
+     - If exists, return error response
+   - Hash password using bcrypt
+   - Create new shop in shopModel
+   - Generate privateKey and publicKey using crypto.generateKeyPairSync("rsa", ...)
+   - Log generated keys
+   - Create key token in KeyTokenService with new shop ID and keys
+     - If fails, return error response
+   - Create token pair using createTokenPair with new shop ID, email, and keys
+   - Log created tokens
+   - Return success response with shop info and tokens
+4. AccessController sends response to client
 ```
 
 ### L5 API register shop (sign up) - create random private and public key
+
+```pseudo
+3. AccessService.signUp({ name, email, password })
+  ...
+   - Generate privateKey and publicKey using crypto.randomBytes(64).toString("hex")
+  ...
+```
+
+### L6 Custom Dynamic Middleware for ApiKey and Permission
+
+- Flow of "Custom Dynamic Middleware for ApiKey and Permission"
+
+```pseudo
+1. Incoming Request:
+   - A request is made to the Express server.
+2. Middleware Setup:
+   - The index.js file sets up middleware for API key and permission checks.
+   - The middleware functions apiKey and permissions are imported from checkAuth.js.
+3. API Key Check:
+   - The apiKey middleware function is executed first.
+   - It retrieves the API key from the request headers (x-api-key).
+   - If the API key is missing, it responds with a 403 Forbidden error.
+   - If the API key is present, it calls findById from apikey.service.js to check if the key exists and is active in the database.
+   - If the key is not found or inactive, it responds with a 403 Forbidden error.
+   - If the key is valid, it attaches the key object (objKey) to the request object (req.objKey) and calls next() to proceed to the next middleware.
+4. Permission Check:
+  - The permissions middleware function is executed next.
+  - It checks if the objKey attached to the request has the required permissions.
+  - If the permissions are missing or invalid, it responds with a 403 Forbidden error.
+  - If the permissions are valid, it calls next() to proceed to the next middleware or route handler.
+5. Route Handling:
+  - If both middleware checks pass, the request is routed to the appropriate handler (e.g., /v1/api).
+```
