@@ -135,3 +135,5 @@ Pseudocode
 5. Route Handling:
   - If both middleware checks pass, the request is routed to the appropriate handler (e.g., /v1/api).
 ```
+
+### L7: Error Handling
