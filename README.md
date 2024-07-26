@@ -137,3 +137,14 @@ Pseudocode
 ```
 
 ### L7: Error Handling
+
+### L8: Success Response
+
+Step by Step to format response
+
+```pseudo
+- Write formatResponse classes in core/success.response.js and core/error.response.js
+- Use formatResponse in Controller
+```
+
+### L9: API Login Shop
