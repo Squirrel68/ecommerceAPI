@@ -1,14 +1,6 @@
 'use strict'
 
-const StatusCode = {
-  OK: 200,
-  CREATED: 201
-}
-
-const ReasonStatusCode = {
-  CREATED: 'Created!',
-  OK: 'Success'
-}
+const { ReasonStatusCode, StatusCode } = require('../utils/httpStatusCode')
 
 class SuccessResponse {
   constructor({ message, statusCode = StatusCode.OK, reasonStatusCode = ReasonStatusCode.OK, metadata = {} }) {
@@ -42,5 +34,6 @@ class CREATED extends SuccessResponse {
 
 module.exports = {
   OK,
-  CREATED
+  CREATED,
+  SuccessResponse
 }

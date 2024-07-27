@@ -148,3 +148,13 @@ Step by Step to format response
 ```
 
 ### L9: API Login Shop
+
+Step By Step
+
+```pseudo
+1. Check mail exists in DB
+2. Check password
+3. Create AccessToken và RefreshToken and save to DB
+4, Generate Tokens and save refresh token to DB
+5. Get Data return Login
+```
