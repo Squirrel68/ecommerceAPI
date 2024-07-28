@@ -158,3 +158,22 @@ Step By Step
 4, Generate Tokens and save refresh token to DB
 5. Get Data return Login
 ```
+
+### L10: Logout Shop and Authentication
+
+Check Authentication
+
+```pseudo
+1 - Check userId missing???
+    2 - get accessToken
+    3 - verifyToken
+    4 - check user in DB
+    5 - check keyStore with this userID
+    6 - OK all => return next()
+```
+
+Logout
+
+```pseudo
+
+```
