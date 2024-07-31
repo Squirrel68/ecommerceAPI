@@ -177,3 +177,12 @@ Logout
 ```pseudo
 
 ```
+
+### L11: Handle Refresh Token
+
+```pseudo
+1. Check refreshToken
+- If refreshToken is used -> Illegal Refresh Token -> Delete allToken in DB (accessToken, refreshToken in KeyStore collection)
+- If refreshToken is not used and the same with DB -> create new accessToken and refreshToken
+
+```
