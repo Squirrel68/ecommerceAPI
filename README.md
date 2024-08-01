@@ -184,5 +184,10 @@ Logout
 1. Check refreshToken
 - If refreshToken is used -> Illegal Refresh Token -> Delete allToken in DB (accessToken, refreshToken in KeyStore collection)
 - If refreshToken is not used and the same with DB -> create new accessToken and refreshToken
+```
 
+- L11 v2: fix logic bug - authentication v2
+
+```pseudo
+- Right: can use refreshToken without authentication
 ```

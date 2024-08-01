@@ -29,9 +29,7 @@ class KeyTokenService {
   }
 
   static findByUserId = async (userId) => {
-    console.log('userId: ', userId)
-    const objectId = new Types.ObjectId(userId) // !TODO: refactor this
-    return await keyTokenModel.findOne({ user: objectId }).lean()
+    return await keyTokenModel.findOne({ user: new Types.ObjectId(userId) })
   }
 
   static removeKeyById = async (id) => {

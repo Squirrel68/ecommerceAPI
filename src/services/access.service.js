@@ -18,44 +18,31 @@ const RoleShop = {
 
 class AccessService {
   // check this refresh token is used or not
-  static handlerRefreshToken = async (refreshToken) => {
-    // check xem token nay da duoc su dung chua
-    const foundToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken)
-    // if token is used
-    if (foundToken) {
-      // decode token and check userId
-      const { userId, email } = await verifyJWT(refreshToken, foundToken.privateKey)
-      console.log({ userId, email })
-      // remove keyStore
+  static handlerRefreshTokenV2 = async ({ keyStore, user, refreshToken }) => {
+    const { userId, email } = user
+
+    if (keyStore.refreshTokensUsed.includes(refreshToken)) {
       await KeyTokenService.deleteKeyById(userId)
-      throw new ForbiddenError('Something went wrong!! Please login again')
+      throw new ForbiddenError(`Something wrong happened !! Please login again`)
     }
 
-    // if token is not used
-    const holderToken = await KeyTokenService.findByRefreshToken(refreshToken)
-    if (!holderToken) throw new AuthFailureError9('Shop not registered')
+    if (keyStore.refreshToken !== refreshToken) throw new AuthFailureError('Shop not registered')
 
-    //verifyToken
-    const { userId, email } = await verifyJWT(refreshToken, holderToken.privateKey)
-    console.log('[2]--', { userId, email })
-    // check UserId
     const foundShop = await findByEmail({ email })
-    if (!foundShop) throw new AuthFailureError('Shop not registered')
-
+    if (!foundShop) throw new AuthFailureError('Shop not registered 2')
     // create new token pair
-    const tokens = await createTokenPair({ userId, email }, holderToken.publicKey, holderToken.privateKey)
-    // update keyStore
-    await holderToken.updateOne({
+    const tokens = await createTokenPair({ userId, email }, keyStore.publicKey, keyStore.privateKey)
+    // update token
+    await keyStore.updateOne({
       $set: {
         refreshToken: tokens.refreshToken
       },
       $addToSet: {
-        refreshTokensUsed: refreshToken // add this token to used list
+        refreshTokensUsed: refreshToken
       }
     })
-
     return {
-      user: { userId, email },
+      user,
       tokens
     }
   }
